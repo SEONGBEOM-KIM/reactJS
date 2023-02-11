@@ -3,11 +3,12 @@
   <body>
     <div id="root"></div>
   </body>
-  <script src="https://unpkg.com/react@latest/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react@latest/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({ text, changeValue }) {
+    function Btn({ text, changeValue, fontSize = 12 }) {
       console.log(text, "was rendered");
       return (
         <button
@@ -18,7 +19,7 @@
             padding: "10px 20px",
             borderRadius: 10,
             border: 0,
-            fontSize: 10,
+            fontSize: fontSize,
           }}
         >
           {text}
@@ -26,6 +27,11 @@
       );
     }
     const MemorizedBtn = React.memo(Btn);
+    MemorizedBtn.propTypes = {
+      text: PropTypes.string.isRequired,
+      changeValue: PropTypes.func,
+      fontSize: PropTypes.number,
+    };
     function App() {
       const [value, setValue] = React.useState("Save Changes");
       const changeValue = () => {
@@ -33,7 +39,7 @@
       };
       return (
         <div>
-          <MemorizedBtn text={value} changeValue={changeValue} />
+          <MemorizedBtn text={value} changeValue={changeValue} fontSize={18} />
           <MemorizedBtn text="Continue" />
         </div>
       );
